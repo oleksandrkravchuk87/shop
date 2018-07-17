@@ -5,7 +5,8 @@ import (
 
 	"fmt"
 
-	"github.com/gin-gonic/gin/json"
+	"encoding/json"
+
 	"github.com/shop/api/models"
 )
 
