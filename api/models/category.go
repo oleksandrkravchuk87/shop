@@ -16,7 +16,7 @@ type Category struct {
 	UpdatedAt time.Time `json:"updated_at" db:"updated_at"`
 	Alias     string    `json:"alias" db:"alias"`
 	Title     string    `json:"title" db:"title"`
-	Desc      string    `json:"desc" db:"desc"`
+	Descr     string    `json:"descr" db:"descr"`
 	Logo      string    `json:"logo" db:"logo"`
 	ParentID  uuid.UUID `json:"parent_id" db:"parent_id"`
 }
@@ -42,7 +42,7 @@ func (c *Category) Validate(tx *pop.Connection) (*validate.Errors, error) {
 	return validate.Validate(
 		&validators.StringIsPresent{Field: c.Alias, Name: "Alias"},
 		&validators.StringIsPresent{Field: c.Title, Name: "Title"},
-		&validators.StringIsPresent{Field: c.Desc, Name: "Desc"},
+		&validators.StringIsPresent{Field: c.Descr, Name: "Descr"},
 		&validators.StringIsPresent{Field: c.Logo, Name: "Logo"},
 	), nil
 }

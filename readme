@@ -1,0 +1,11 @@
+
+to seed a database
+
+buffalo task db:seed
+buffalo t db:seed
+
+buffalo task db:seed:categories
+buffalo t db:seed:categories
+
+buffalo task db:seed:items
+buffalo t db:seed:items

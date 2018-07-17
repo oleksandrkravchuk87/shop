@@ -36,9 +36,8 @@ func (o Orders) String() string {
 // This method is not required and may be deleted.
 func (o *Order) Validate(tx *pop.Connection) (*validate.Errors, error) {
 	return validate.Validate(
-		&validators.IntIsPresent{Field: o.ID, Name: "ID"},
+
 		&validators.StringIsPresent{Field: o.Status, Name: "Status"},
-		&validators.IntIsPresent{Field: o.Sum, Name: "Sum"},
 	), nil
 }
 
