@@ -1,9 +1,10 @@
-package fake
+package populatedata
 
 import (
 	"encoding/csv"
 	"io"
 	"io/ioutil"
+	"log"
 	"path/filepath"
 	"strings"
 
@@ -26,6 +27,7 @@ func store(tableName string, in []byte) error {
 
 	c, err := f(in)
 	if err != nil {
+		log.Println(err)
 		return err
 	}
 
@@ -44,6 +46,7 @@ func Import(dir string) error {
 
 	files, err := ioutil.ReadDir(dir)
 	if err != nil {
+		log.Println(err)
 		return errors.Wrapf(err, "couldn't read directory '%v'", dir)
 	}
 
@@ -59,10 +62,12 @@ func Import(dir string) error {
 		tableName := strings.TrimSuffix(fileName, ".csv")
 
 		if csvData, err = ioutil.ReadFile(filepath.Join(dir, f.Name())); err != nil {
+			log.Println(err)
 			break
 		}
 
 		if err = store(tableName, csvData); err != nil {
+			log.Println(err)
 			break
 		}
 	}
@@ -75,13 +80,15 @@ func Import(dir string) error {
 }
 
 var storeItems = func(in []byte) (count int, err error) {
-	out := make([]models.Items, 0)
+	out := make([]models.Item, 0)
 	if err = gocsv.UnmarshalBytes(in, &out); err != nil {
+		log.Println(err)
 		return
 	}
 
 	for i := range out {
 		if err = models.DB.Create(&out[i]); err != nil {
+			log.Println(err)
 			return
 		}
 		count++
@@ -91,13 +98,15 @@ var storeItems = func(in []byte) (count int, err error) {
 }
 
 var storeCategories = func(in []byte) (count int, err error) {
-	out := make([]models.Categories, 0)
+	out := make([]models.Category, 0)
 	if err = gocsv.UnmarshalBytes(in, &out); err != nil {
+		log.Println(err)
 		return
 	}
 
 	for i := range out {
 		if err = models.DB.Create(&out[i]); err != nil {
+			log.Println(err)
 			return
 		}
 		count++

@@ -10,12 +10,16 @@ import (
 	"github.com/gobuffalo/x/sessions"
 	"github.com/rs/cors"
 	"github.com/shop/api/models"
+	"github.com/shop/api/repository"
 )
 
 // ENV is used to help switch settings based on where the
 // application is being run. Default is "development".
 var ENV = envy.Get("GO_ENV", "development")
 var app *buffalo.App
+var categoriesRepo repository.CategoryRepo
+var itemsRepo repository.ItemRepo
+var ordersRepo repository.OrderRepo
 
 // App is where all routes and middleware for buffalo
 // should be defined. This is the nerve center of your
@@ -39,6 +43,10 @@ func App() *buffalo.App {
 		if ENV == "development" {
 			app.Use(middleware.ParameterLogger)
 		}
+
+		categoriesRepo = repository.NewCategoryImpl()
+		itemsRepo = repository.NewItemImpl()
+		ordersRepo = repository.NewOrderImpl()
 
 		// Wraps each request in a transaction.
 		//  c.Value("tx").(*pop.PopTransaction)

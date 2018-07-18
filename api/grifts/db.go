@@ -4,11 +4,11 @@ import (
 	"log"
 
 	"github.com/markbates/grift/grift"
-	"github.com/shop/api/fake"
+	"github.com/shop/api/populatedata"
 )
 
 const (
-	dir = ""
+	dir = "./csvs"
 )
 
 var _ = grift.Namespace("db", func() {
@@ -24,7 +24,7 @@ var _ = grift.Namespace("db", func() {
 		return nil
 	})
 	grift.Add("seed:categories", func(c *grift.Context) error {
-		err := fake.GenerateFakeCategoryes()
+		err := populatedata.GenerateFakeCategoryes()
 		if err != nil {
 			log.Printf("filed to generate categories: %v\n", err)
 			return err
@@ -32,7 +32,7 @@ var _ = grift.Namespace("db", func() {
 		return nil
 	})
 	grift.Add("seed:items", func(c *grift.Context) error {
-		err := fake.GenerateFakeItems()
+		err := populatedata.GenerateFakeItems()
 		if err != nil {
 			log.Printf("filed to generate items: %v\n", err)
 			return err
@@ -43,7 +43,7 @@ var _ = grift.Namespace("db", func() {
 	grift.Desc("import", "Imports data from csv to database")
 	grift.Add("import", func(c *grift.Context) error {
 
-		err := fake.Import(dir)
+		err := populatedata.Import(dir)
 		if err != nil {
 			log.Printf("filed to import items: %v\n", err)
 			return err

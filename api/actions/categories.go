@@ -6,14 +6,13 @@ import (
 	"strconv"
 
 	"github.com/gobuffalo/buffalo"
-	"github.com/shop/api/models"
 )
 
 // CategoriesList default implementation.
 func CategoriesList(c buffalo.Context) error {
 	var err error
 	var o, l int
-	categories := models.Categories{}
+
 	off := c.Request().FormValue("offset")
 	lim := c.Request().FormValue("limit")
 	if off != "" && lim != "" {
@@ -28,23 +27,23 @@ func CategoriesList(c buffalo.Context) error {
 			return c.Error(500, errors.New("could not handle limit parameter"))
 		}
 	}
-	err = models.DB.Paginate(o, l).All(&categories)
+
+	categories, err := categoriesRepo.List(o, l)
 	if err != nil {
 		log.Println(err)
 		return c.Error(500, errors.New("could not get categories"))
 	}
 	return c.Render(200, r.JSON(categories))
-
 }
 
 // CategoriesIndex default implementation.
 func CategoriesIndex(c buffalo.Context) error {
-	category := models.Category{}
 	id := c.Param("id")
-	err := models.DB.Find(&category, id)
+
+	category, err := categoriesRepo.FindOne(id)
 	if err != nil {
 		log.Println(err)
-		return c.Error(500, errors.New("could not get categorie"))
+		return c.Error(500, errors.New("could not get category"))
 	}
 	return c.Render(200, r.JSON(category))
 }

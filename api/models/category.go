@@ -11,14 +11,14 @@ import (
 )
 
 type Category struct {
-	ID        uuid.UUID `json:"id" db:"id"`
-	CreatedAt time.Time `json:"created_at" db:"created_at"`
-	UpdatedAt time.Time `json:"updated_at" db:"updated_at"`
-	Alias     string    `json:"alias" db:"alias"`
-	Title     string    `json:"title" db:"title"`
-	Descr     string    `json:"descr" db:"descr"`
-	Logo      string    `json:"logo" db:"logo"`
-	ParentID  uuid.UUID `json:"parent_id" db:"parent_id"`
+	ID        uuid.UUID `json:"id" db:"id" csv:"ID"`
+	CreatedAt time.Time `json:"created_at" db:"created_at" csv:"CREATED_AT"`
+	UpdatedAt time.Time `json:"updated_at" db:"updated_at" csv:"UPDATED_AT"`
+	Alias     string    `json:"alias" db:"alias" csv:"ALIAS"`
+	Title     string    `json:"title" db:"title" csv:"TITLE"`
+	Descr     string    `json:"descr" db:"descr" csv:"DESCR"`
+	Logo      string    `json:"logo" db:"logo" csv:"LOGO"`
+	ParentID  uuid.UUID `json:"parent_id" db:"parent_id" csv:"PARENT_ID"`
 }
 
 // String is not required by pop and may be deleted

@@ -6,14 +6,13 @@ import (
 	"strconv"
 
 	"github.com/gobuffalo/buffalo"
-	"github.com/shop/api/models"
 )
 
 // ItemsList default implementation.
 func ItemsList(c buffalo.Context) error {
 	var err error
 	var o, l int
-	items := models.Items{}
+
 	off := c.Request().FormValue("offset")
 	lim := c.Request().FormValue("limit")
 	if off != "" && lim != "" {
@@ -28,7 +27,8 @@ func ItemsList(c buffalo.Context) error {
 			return c.Error(500, errors.New("could not handle limit parameter"))
 		}
 	}
-	err = models.DB.Paginate(o, l).All(&items)
+
+	items, err := itemsRepo.List(o, l)
 	if err != nil {
 		log.Println(err)
 		return c.Error(500, errors.New("could not get items"))
@@ -38,9 +38,9 @@ func ItemsList(c buffalo.Context) error {
 
 // ItemsIndex default implementation.
 func ItemsIndex(c buffalo.Context) error {
-	item := models.Item{}
 	id := c.Param("id")
-	err := models.DB.Find(&item, id)
+
+	item, err := itemsRepo.FindOne(id)
 	if err != nil {
 		log.Println(err)
 		return c.Error(500, errors.New("could not get item"))
