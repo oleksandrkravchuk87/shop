@@ -38,6 +38,7 @@ func store(tableName string, in []byte) error {
 
 // Import
 func Import(dir string) error {
+
 	gocsv.SetCSVReader(func(in io.Reader) gocsv.CSVReader {
 		r := csv.NewReader(in)
 		r.Comma = csvReaderComma

@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/markbates/grift/grift"
+	"github.com/shop/api/models"
 	"github.com/shop/api/populatedata"
 )
 
@@ -15,6 +16,7 @@ var _ = grift.Namespace("db", func() {
 
 	grift.Desc("seed", "Seeds a database")
 	grift.Add("seed", func(c *grift.Context) error {
+		models.DB.TruncateAll()
 		if err := grift.Run("db:seed:categories", c); err != nil {
 			return err
 		}
@@ -42,7 +44,7 @@ var _ = grift.Namespace("db", func() {
 
 	grift.Desc("import", "Imports data from csv to database")
 	grift.Add("import", func(c *grift.Context) error {
-
+		models.DB.TruncateAll()
 		err := populatedata.Import(dir)
 		if err != nil {
 			log.Printf("filed to import items: %v\n", err)
